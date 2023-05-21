@@ -1,0 +1,75 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <div class="row">
+                    <div class="col-1">
+                        <a class="btn btn-secondary btn-lg" href="{{ request.META.HTTP_REFERER }}">
+                            <i class="bi bi-box-arrow-left h1"></i>
+                        </a>
+                    </div>
+                    <div class="col-10">
+                        <div class="input-group">
+                            <form method="GET" action="">
+                                <span class="input-group-text">Search</span>
+                                <input type="text" name='search-area' class="form-control" placeholder="Search here"
+                                    value="{{ search_input }}">
+                                <button class=" btn btn-success" type="submit"><i
+                                        class="bi bi-filter-circle h1"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        {% if expenses|length > 0 %}
+                        <a class="btn btn-primary btn-lg" href="{% url 'expense-create' %}">
+                            <i class="bi bi-plus-circle h1"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </tr>
+            <tr>
+                <th>Purchaser</th>
+                <th>For who?</th>
+                <th>Item</th>
+                <th>Location</th>
+                <th>Cost</th>
+                <th>Category</th>
+                <th>Tag</th>
+                <th>Add</th>
+                <th>When</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exp in expenses %}
+            <tr class="align-middle">
+                <td>{{ exp.purchaser.username|title }}</td>
+                <td>{{ exp.intended_recipient }}</td>
+                <td><a class="text-white" style="text-decoration: none;" href="{% url 'expense-update' exp.id %}">{{ exp.thing }}</a></td>
+                <td>{{ exp.location }}</td>
+                <td>R {{ exp.cost|floatformat:2 }}</td>
+                <td>{{ exp.category }}</td>
+                <td>{{ exp.short_tag }}</td>
+                <td>{{ exp.date_purchased }}</td>
+                <td>
+                    <a class="btn btn-outline-dark" href="{% url 'expense-create-from' exp.id %}"><i
+                            class="bi bi-plus-circle text-white"></i></a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" href="{% url 'expense-delete' exp.id %}">
+                        <i class="bi bi-trash3 text-danger"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock content %}

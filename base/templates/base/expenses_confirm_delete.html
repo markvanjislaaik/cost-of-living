@@ -1,0 +1,17 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+
+<div class="header-bar">
+    <a href="{{ request.META.HTTP_REFERER }}">&#8592;</a>
+</div>
+
+<div class="card-body">
+    <form method="POST">
+        {% csrf_token %}
+        <p>Really Delete "{{ expense.thing }}"? </p>
+        <input class="button" type="submit" value="Delete">
+    </form>
+</div>
+
+{% endblock content %}
